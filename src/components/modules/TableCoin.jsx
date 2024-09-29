@@ -1,5 +1,4 @@
-function TableCoin({ coins }) {
-  console.log(coins);
+function TableCoin() {
   return <div></div>;
 }
 
