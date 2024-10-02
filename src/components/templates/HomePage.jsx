@@ -5,7 +5,7 @@ import TableCoin from "../modules/TableCoin";
 import { getCoinList } from "../../services/cryptoApi";
 
 function HomePage() {
-  const [coins, setCoins] = useState("");
+  const [coins, setCoins] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
