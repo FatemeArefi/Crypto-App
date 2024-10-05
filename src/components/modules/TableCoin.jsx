@@ -12,8 +12,20 @@ const TableRow = ({
     total_volume,
     current_price,
     price_change_percentage_24h: price_change,
+    currency,
   },
 }) => {
+  const formatPrice = (amount, currency) => {
+    if (currency === "USD") {
+      return `$${amount.toLocaleString()}`;
+    } else if (currency === "JPY") {
+      return `¥${amount.toLocaleString()}`;
+    } else if (currency === "EUR") {
+      return `€${amount.toLocaleString()}`;
+    }
+    return amount;
+  };
+
   return (
     <tr>
       <td>
@@ -23,7 +35,7 @@ const TableRow = ({
         </div>
       </td>
       <td>{name}</td>
-      <td>${current_price.toLocaleString()}</td>
+      <td>{formatPrice(current_price, currency)}</td>
       <td className={price_change > 0 ? styles.success : styles.error}>
         {price_change.toFixed(2)}%
       </td>

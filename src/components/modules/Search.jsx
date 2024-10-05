@@ -1,11 +1,22 @@
-function Search() {
+import { useEffect, useState } from "react";
+
+function Search({ currency, setCurrency }) {
+  const [text, setText] = useState("");
+
+  useEffect(() => {}, [text]);
+
   return (
     <div>
-      <input type="text" />
-      <select>
-        <option>USD </option>
-        <option> EUR</option>
-        <option> JPY</option>
+      <input
+        type="text"
+        placeholder="Search"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      />
+      <select value={currency} onChange={(e) => setCurrency(e.target.value)}>
+        <option value="usd">USD </option>
+        <option value="eur">EUR</option>
+        <option value="jpy">JPY</option>
       </select>
     </div>
   );
