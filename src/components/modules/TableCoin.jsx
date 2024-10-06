@@ -6,8 +6,8 @@ import chartDown from "../../assets/chart-down.svg";
 
 import styles from "./Table.module.css";
 
-const TableRow = ({
-  coin: {
+const TableRow = ({ coin, setChart }) => {
+  const {
     id,
     name,
     image,
@@ -16,15 +16,13 @@ const TableRow = ({
     current_price,
     price_change_percentage_24h: price_change,
     currency,
-  },
-  setChart,
-}) => {
+  } = coin;
+
   const showHandler = async () => {
     try {
       const res = await fetch(marketChart(id));
       const json = await res.json();
-      console.log(json);
-      setChart(json);
+      setChart({ ...json, coin });
     } catch (error) {
       setChart(null);
     }
