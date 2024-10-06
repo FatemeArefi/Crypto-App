@@ -1,11 +1,14 @@
 import React from "react";
+import { RotatingLines } from "react-loader-spinner";
+import { marketChart } from "../../services/cryptoApi";
 import chartUp from "../../assets/chart-up.svg";
 import chartDown from "../../assets/chart-down.svg";
-import { RotatingLines } from "react-loader-spinner";
+
 import styles from "./Table.module.css";
 
 const TableRow = ({
   coin: {
+    id,
     name,
     image,
     symbol,
@@ -14,7 +17,18 @@ const TableRow = ({
     price_change_percentage_24h: price_change,
     currency,
   },
+  setChart,
 }) => {
+  const showHandler = async () => {
+    try {
+      const res = await fetch(marketChart(id));
+      const json = await res.json();
+      console.log(json);
+      setChart(json);
+    } catch (error) {
+      setChart(null);
+    }
+  };
   const formatPrice = (amount, currency) => {
     if (currency === "USD") {
       return `$${amount.toLocaleString()}`;
@@ -29,7 +43,7 @@ const TableRow = ({
   return (
     <tr>
       <td>
-        <div className={styles.symbol}>
+        <div className={styles.symbol} onClick={showHandler}>
           <img src={image} alt="Coin-image" />
           <span>{symbol.toUpperCase()}</span>
         </div>
@@ -47,13 +61,13 @@ const TableRow = ({
   );
 };
 
-function TableCoin({ coins, isLoading }) {
+function TableCoin({ coins, isLoading, setChart }) {
   return (
     <div className={styles.container}>
       {isLoading ? (
         <RotatingLines />
       ) : (
-        <table className={styles}>
+        <table className={styles.table}>
           <thead>
             <tr>
               <th>Coin</th>
@@ -66,7 +80,7 @@ function TableCoin({ coins, isLoading }) {
           </thead>
           <tbody>
             {coins.map((coin) => (
-              <TableRow coin={coin} key={coin.id} />
+              <TableRow coin={coin} key={coin.id} setChart={setChart} />
             ))}
           </tbody>
         </table>
